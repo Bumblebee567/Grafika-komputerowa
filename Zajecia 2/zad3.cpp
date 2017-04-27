@@ -1,7 +1,6 @@
 #include <GL/glut.h>
-#include <GL/gltools_extracted.h>
-
-#include<math.h>
+#include "gltools_extracted.h"
+#include "VectorMath.cpp"
 #define GL_PI 3.1415f
 
 static GLfloat xRot = 0.0f;
@@ -134,7 +133,7 @@ void RenderScene(void)
 		glTexCoord2f(1.0f, 1.0f);
 		glVertex3fv(bottomVertices[i]);
 		glTexCoord2f(0.0f, 0.0f);
-		glVertex3fv(bottomVertices[(i + 1) % 9]);
+		glVertex3fv(bottomVertices[(i + 1) % 8]);
 		glTexCoord2f(0.0f, 1.0f);
 		glVertex3fv(topVertex);
 	}
