@@ -1,20 +1,15 @@
-#include <GL/glut.h>
-#include <GL/glext.h>
-#ifndef WIN32
-#define GLX_GLXEXT_LEGACY
-#include <GL/glx.h>
-#define wglGetProcAddress glXGetProcAddressARB
-#endif
+Ôªø#include <GL/glut.h>
+#include "glext.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include "colors.h"
 #include "targa.h"
 
-// wskaünik na funkcjÍ glWindowPos2i
+// wska≈∫nik na funkcjƒô glWindowPos2i
 
 PFNGLWINDOWPOS2IPROC glWindowPos2i = NULL;
 
-// sta≥e do obs≥ugi menu podrÍcznego
+// sta≈Çe do obs≈Çugi menu podrƒôcznego
 
 enum
 {
@@ -25,16 +20,16 @@ enum
 	TEXTURE_LENA_UNC,                // teksura lena nieskompresowana
 	TEXTURE_LENA_GRAY,               // tekstura lena_gray
 	TEXTURE_LENA_GRAY_UNC,           // tekstura lena_gray nieskompresowana
-	FULL_WINDOW,                     // aspekt obrazu - ca≥e okno
+	FULL_WINDOW,                     // aspekt obrazu - ca≈Çe okno
 	ASPECT_1_1,                      // aspekt obrazu 1:1
-	EXIT                             // wyjúcie
+	EXIT                             // wyj≈õcie
 };
 
 // aspekt obrazu
 
 int aspect = FULL_WINDOW;
 
-// usuniÍcie definicji makr near i far
+// usuniƒôcie definicji makr near i far
 
 #ifdef near
 #undef near
@@ -43,7 +38,7 @@ int aspect = FULL_WINDOW;
 #undef far
 #endif
 
-// rozmiary bry≥y obcinania
+// rozmiary bry≈Çy obcinania
 
 const GLdouble left = -2.0;
 const GLdouble right = 2.0;
@@ -56,66 +51,66 @@ const GLdouble far = 7.0;
 
 GLuint LENA, LENA_UNC, LENA_GRAY, LENA_GRAY_UNC;
 
-// identyfikator bieøπcej tekstury;
+// identyfikator bie≈ºƒÖcej tekstury;
 
 GLuint texture;
 
-// wskazÛwki do kompresji tekstur
+// wskaz√≥wki do kompresji tekstur
 
 GLint texture_compression_hint = GL_DONT_CARE;
 
-// funkcja rysujπca napis w wybranym miejscu
-// (wersja korzystajπca z funkcji glWindowPos2i)
+// funkcja rysujƒÖca napis w wybranym miejscu
+// (wersja korzystajƒÖca z funkcji glWindowPos2i)
 
 void DrawString(GLint x, GLint y, char *string)
 {
-	// po≥oøenie napisu
+	// po≈Ço≈ºenie napisu
 	glWindowPos2i(x, y);
 
-	// wyúwietlenie napisu
+	// wy≈õwietlenie napisu
 	int len = strlen(string);
 	for (int i = 0; i < len; i++)
 		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, string[i]);
 }
 
-// funkcja generujπca scenÍ 3D
+// funkcja generujƒÖca scenƒô 3D
 
 void DisplayScene()
 {
-	// kolor t≥a - zawartoúÊ bufora koloru
+	// kolor t≈Ça - zawarto≈õƒá bufora koloru
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 
 	// czyszczenie bufora koloru
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// wybÛr macierzy modelowania
+	// wyb√≥r macierzy modelowania
 	glMatrixMode(GL_MODELVIEW);
 
 	// macierz modelowania = macierz jednostkowa
 	glLoadIdentity();
 
-	// przesuniÍcie uk≥adu wspÛ≥rzÍdnych obiektÛw do úrodka bry≥y odcinania
+	// przesuniƒôcie uk≈Çadu wsp√≥≈Çrzƒôdnych obiekt√≥w do ≈õrodka bry≈Çy odcinania
 	glTranslatef(0.0, 0.0, -(near + far) / 2);
 
-	// przesuniÍcie obiektu z teksturπ do gÛry okna
+	// przesuniƒôcie obiektu z teksturƒÖ do g√≥ry okna
 	glTranslatef(0.0, 1.0, 0.0);
 
-	// w≥πczenie teksturowania dwuwymiarowego
+	// w≈ÇƒÖczenie teksturowania dwuwymiarowego
 	glEnable(GL_TEXTURE_2D);
 
-	// ustawienie parametÛw úrodowiska tekstur
+	// ustawienie paramet√≥w ≈õrodowiska tekstur
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-	// dowiπzanie stanu tekstury
+	// dowiƒÖzanie stanu tekstury
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	// filtr powiakszajπcy
+	// filtr powi√†kszajƒÖcy
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	// filtr pomniejszajπcy
+	// filtr pomniejszajƒÖcy
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	// narysowanie kwadratu z teksturπ
+	// narysowanie kwadratu z teksturƒÖ
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);
 	glVertex2f(-1.5, -1.5);
@@ -127,10 +122,10 @@ void DisplayScene()
 	glVertex2f(1.5, -1.5);
 	glEnd();
 
-	// wy≥πczenie teksturowania dwuwymiarowego
+	// wy≈ÇƒÖczenie teksturowania dwuwymiarowego
 	glDisable(GL_TEXTURE_2D);
 
-	// wyúwietlenie wybranych informacji
+	// wy≈õwietlenie wybranych informacji
 	char string[200];
 	GLint var;
 	glColor3fv(Black);
@@ -148,7 +143,7 @@ void DisplayScene()
 	sprintf(string, "GL_TEXTURE_COMPRESSED_IMAGE_SIZE = %i", var);
 	DrawString(2, 16, string);
 
-	// wewnÍtrzny format tekstury
+	// wewnƒôtrzny format tekstury
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT, &var);
 	switch (var)
 	{
@@ -174,7 +169,7 @@ void DisplayScene()
 		sprintf(string, "GL_TEXTURE_INTERNAL_FORMAT = GL_COMPRESSED_RGBA_FXT1_3DFX");
 		break;
 
-		// format rozszerzenia ATI_texture_compression_3dc (nie wystÍpuje w pliku glext.h)
+		// format rozszerzenia ATI_texture_compression_3dc (nie wystƒôpuje w pliku glext.h)
 	case 0x8837:
 		sprintf(string, "GL_TEXTURE_INTERNAL_FORMAT = GL_COMPRESSED_RGB_3DC_ATI");
 		break;
@@ -205,14 +200,14 @@ void DisplayScene()
 		sprintf(string, "GL_TEXTURE_INTERNAL_FORMAT = GL_LUMINANCE_ALPHA");
 		break;
 
-		// pozosta≥e formaty
+		// pozosta≈Çe formaty
 	default:
 		sprintf(string, "GL_TEXTURE_INTERNAL_FORMAT = nieznany");
 		break;
 	}
 	DrawString(2, 30, string);
 
-	// informacja o wskazÛwkach do kompresji tekstur
+	// informacja o wskaz√≥wkach do kompresji tekstur
 	glGetIntegerv(GL_TEXTURE_COMPRESSION_HINT, &var);
 	switch (var)
 	{
@@ -228,11 +223,11 @@ void DisplayScene()
 	}
 	DrawString(2, 44, string);
 
-	// iloúÊ obs≥ugiwanych formatÛw kompresji tekstur
+	// ilo≈õƒá obs≈Çugiwanych format√≥w kompresji tekstur
 	glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &var);
 	sprintf(string, "GL_NUM_COMPRESSED_TEXTURE_FORMATS = %i", var);
 
-	// wykaz obs≥ugiwanych formatÛw kompresji tekstur
+	// wykaz obs≈Çugiwanych format√≥w kompresji tekstur
 	GLint formats[256];
 	glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, formats);
 	for (int i = 0; i < var; i++)
@@ -262,12 +257,12 @@ void DisplayScene()
 			break;
 
 			// format rozszerzenia ATI_texture_compression_3dc
-			// (nie wystÍpuje w pliku glext.h)
+			// (nie wystƒôpuje w pliku glext.h)
 		case 0x8837:
 			sprintf(string, "GL_COMPRESSED_RGB_3DC_ATI");
 			break;
 
-			// pozostra≥e formaty
+			// pozostra≈Çe formaty
 		default:
 			sprintf(string, "Format nieznany (0x%X)", formats[i]);
 			break;
@@ -275,35 +270,35 @@ void DisplayScene()
 		DrawString(2, 70 + 14 * i, string);
 	}
 
-	// skierowanie poleceÒ do wykonania
+	// skierowanie polece≈Ñ do wykonania
 	glFlush();
 
-	// zamiana buforÛw koloru
+	// zamiana bufor√≥w koloru
 	glutSwapBuffers();
 }
 
-// zmiana wielkoúci okna
+// zmiana wielko≈õci okna
 
 void Reshape(int width, int height)
 {
-	// obszar renderingu - ca≥e okno
+	// obszar renderingu - ca≈Çe okno
 	glViewport(0, 0, width, height);
 
-	// wybÛr macierzy rzutowania
+	// wyb√≥r macierzy rzutowania
 	glMatrixMode(GL_PROJECTION);
 
 	// macierz rzutowania = macierz jednostkowa
 	glLoadIdentity();
 
-	// parametry bry≥y obcinania
+	// parametry bry≈Çy obcinania
 	if (aspect == ASPECT_1_1)
 	{
-		// wysokoúÊ okna wiÍksza od wysokoúci okna
+		// wysoko≈õƒá okna wiƒôksza od wysoko≈õci okna
 		if (width < height && width > 0)
 			glFrustum(left, right, bottom*height / width, top*height / width, near, far);
 		else
 
-			// szerokoúÊ okna wiÍksza lub rÛwna wysokoúci okna
+			// szeroko≈õƒá okna wiƒôksza lub r√≥wna wysoko≈õci okna
 			if (width >= height && height > 0)
 				glFrustum(left*width / height, right*width / height, bottom, top, near, far);
 	}
@@ -314,88 +309,88 @@ void Reshape(int width, int height)
 	DisplayScene();
 }
 
-// utworzenie list wyúwietlania
+// utworzenie list wy≈õwietlania
 
 void GenerateTextures()
 {
-	// zmienne uøyte przy obs≥udze plikÛw TARGA
+	// zmienne u≈ºyte przy obs≈Çudze plik√≥w TARGA
 	GLsizei width, height;
 	GLenum format, type;
 	GLvoid *pixels;
 
-	// tryb upakowania bajtÛw danych tekstury
+	// tryb upakowania bajt√≥w danych tekstury
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	// wskazÛwki do kompresji tesktur
+	// wskaz√≥wki do kompresji tesktur
 	glHint(GL_TEXTURE_COMPRESSION_HINT, texture_compression_hint);
 
-	// wczytanie tekstury lena.tga
-	GLboolean error = load_targa("lena.tga", width, height, format, type, pixels);
+	// wczytanie tekstury white_skin_man_face_2_20141210_1200773164.tga
+	GLboolean error = load_targa("tan_skin_girl.tga", width, height, format, type, pixels);
 
-	// b≥πd odczytu pliku
+	// b≈ÇƒÖd odczytu pliku
 	if (error == GL_FALSE)
 	{
-		printf("Niepoprawny odczyt pliku lena.tga");
+		printf("Niepoprawny odczyt pliku man_black_skin_face_2.tga");
 		exit(0);
 	}
 
 	// utworzenie identyfikatora tekstury
 	glGenTextures(1, &LENA);
 
-	// dowiπzanie stanu tekstury
+	// dowiƒÖzanie stanu tekstury
 	glBindTexture(GL_TEXTURE_2D, LENA);
 
-	// definiowanie tekstury z kompresjπ
+	// definiowanie tekstury z kompresjƒÖ
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB, width, height, 0, format, type, pixels);
 
 	// utworzenie identyfikatora tekstury
 	glGenTextures(1, &LENA_UNC);
 
-	// dowiπzanie stanu tekstury
+	// dowiƒÖzanie stanu tekstury
 	glBindTexture(GL_TEXTURE_2D, LENA_UNC);
 
 	// definiowanie tekstury bez kompresji
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, type, pixels);
 
-	// porzπdki
+	// porzƒÖdki
 	delete[](unsigned char*)pixels;
 
 	// wczytanie tekstury lena_gray.tga
-	error = load_targa("lena_gray.tga", width, height, format, type, pixels);
+	error = load_targa("tan_skin_girl.tga", width, height, format, type, pixels);
 
-	// b≥πd odczytu pliku
+	// b≈ÇƒÖd odczytu pliku
 	if (error == GL_FALSE)
 	{
-		printf("Niepoprawny odczyt pliku lena_gray.tga");
+		printf("Niepoprawny odczyt pliku man_black_skin_face_2.tga");
 		exit(0);
 	}
 
 	// utworzenie identyfikatora tekstury
 	glGenTextures(1, &LENA_GRAY);
 
-	// dowiπzanie stanu tekstury
+	// dowiƒÖzanie stanu tekstury
 	glBindTexture(GL_TEXTURE_2D, LENA_GRAY);
 
-	// definiowanie tekstury z kompresjπ
+	// definiowanie tekstury z kompresjƒÖ
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_LUMINANCE, width, height, 0, format, type, pixels);
 
 	// utworzenie identyfikatora tekstury
 	glGenTextures(1, &LENA_GRAY_UNC);
 
-	// dowiπzanie stanu tekstury
+	// dowiƒÖzanie stanu tekstury
 	glBindTexture(GL_TEXTURE_2D, LENA_GRAY_UNC);
 
 	// definiowanie tekstury bez kompresji
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, width, height, 0, format, type, pixels);
 
-	// porzπdki
+	// porzƒÖdki
 	delete[](unsigned char*)pixels;
 
-	// wybÛr bieøπcej tekstury
+	// wyb√≥r bie≈ºƒÖcej tekstury
 	texture = LENA;
 }
 
-// obs≥uga menu podrÍcznego
+// obs≈Çuga menu podrƒôcznego
 
 void Menu(int value)
 {
@@ -411,9 +406,9 @@ void Menu(int value)
 		texture = tmp_texture;
 		DisplayScene();
 	}
-		break;
+	break;
 
-		// kompresja tekstur - GL_DONT_CARE
+	// kompresja tekstur - GL_DONT_CARE
 	case TEXTURE_COMPRESSION_DONT_CARE:
 	{
 		texture_compression_hint = GL_DONT_CARE;
@@ -422,9 +417,9 @@ void Menu(int value)
 		texture = tmp_texture;
 		DisplayScene();
 	}
-		break;
+	break;
 
-		// kompresja tekstur - GL_NICEST
+	// kompresja tekstur - GL_NICEST
 	case TEXTURE_COMPRESSION_NICEST:
 	{
 		texture_compression_hint = GL_NICEST;
@@ -433,63 +428,63 @@ void Menu(int value)
 		texture = tmp_texture;
 		DisplayScene();
 	}
-		break;
+	break;
 
-		// tekstura lena
+	// tekstura lena
 	case TEXTURE_LENA:
 	{
 		texture = LENA;
 		DisplayScene();
 	}
-		break;
+	break;
 
-		// teksura lena nieskompresowana
+	// teksura lena nieskompresowana
 	case TEXTURE_LENA_UNC:
 	{
 		texture = LENA_UNC;
 		DisplayScene();
 	}
-		break;
+	break;
 
-		// tekstura lena_gray
+	// tekstura lena_gray
 	case TEXTURE_LENA_GRAY:
 	{
 		texture = LENA_GRAY;
 		DisplayScene();
 	}
-		break;
+	break;
 
-		// tekstura lena_gray nieskompresowana
+	// tekstura lena_gray nieskompresowana
 	case TEXTURE_LENA_GRAY_UNC:
 	{
 		texture = LENA_GRAY_UNC;
 		DisplayScene();
 	}
-		break;
+	break;
 
-		// obszar renderingu - ca≥e okno
+	// obszar renderingu - ca≈Çe okno
 	case FULL_WINDOW:
 	{
 		aspect = FULL_WINDOW;
 		Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 	}
-		break;
+	break;
 
-		// obszar renderingu - aspekt 1:1
+	// obszar renderingu - aspekt 1:1
 	case ASPECT_1_1:
 	{
 		aspect = ASPECT_1_1;
 		Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 	}
-		break;
+	break;
 
-		// wyjúcie
+	// wyj≈õcie
 	case EXIT:
 		exit(0);
 	}
 }
 
-// sprawdzenie i przygotowanie obs≥ugi wybranych rozszerzeÒ
+// sprawdzenie i przygotowanie obs≈Çugi wybranych rozszerze≈Ñ
 
 void ExtensionSetup()
 {
@@ -501,7 +496,7 @@ void ExtensionSetup()
 	if (sscanf(version, "%d.%d", &major, &minor) != 2)
 	{
 #ifdef WIN32
-		printf("B≥Ídny format wersji OpenGL\n");
+		printf("B≈Çƒôdny format wersji OpenGL\n");
 #else
 
 		printf("Bledny format wersji OpenGL\n");
@@ -513,16 +508,16 @@ void ExtensionSetup()
 	// sprawdzenie czy jest co najmniej wersja 1.4
 	if (major > 1 || minor >= 4)
 	{
-		// pobranie wskaünika wybranej funkcji OpenGL 1.4
+		// pobranie wska≈∫nika wybranej funkcji OpenGL 1.4
 		glWindowPos2i = (PFNGLWINDOWPOS2IPROC)wglGetProcAddress("glWindowPos2i");
 	}
 	else
-		// sprawdzenie czy jest obs≥ugiwane rozszerzenie ARB_window_pos
+		// sprawdzenie czy jest obs≈Çugiwane rozszerzenie ARB_window_pos
 		if (glutExtensionSupported("GL_ARB_window_pos"))
 		{
-			// pobranie wskaünika wybranej funkcji rozszerzenia ARB_window_pos
+			// pobranie wska≈∫nika wybranej funkcji rozszerzenia ARB_window_pos
 			glWindowPos2i = (PFNGLWINDOWPOS2IPROC)wglGetProcAddress
-				("glWindowPos2iARB");
+			("glWindowPos2iARB");
 		}
 		else
 		{
@@ -531,7 +526,7 @@ void ExtensionSetup()
 		}
 
 	// sprawdzenie czy jest co najmniej wersja 1.3 OpenGL lub
-	// czy jest obs≥ugiwane rozszerzenie ARB_texture_compression
+	// czy jest obs≈Çugiwane rozszerzenie ARB_texture_compression
 	if (!(major > 1 || minor >= 3) &&
 		!glutExtensionSupported("GL_ARB_texture_compression"))
 	{
@@ -548,22 +543,22 @@ int main(int argc, char *argv[])
 	// inicjalizacja bufora ramki
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
-	// rozmiary g≥Ûwnego okna programu
+	// rozmiary g≈Ç√≥wnego okna programu
 	glutInitWindowSize(550, 550);
 
-	// utworzenie g≥Ûwnego okna programu
+	// utworzenie g≈Ç√≥wnego okna programu
 	glutCreateWindow("Kompresja tekstur");
 
-	// do≥πczenie funkcji generujπcej scenÍ 3D
+	// do≈ÇƒÖczenie funkcji generujƒÖcej scenƒô 3D
 	glutDisplayFunc(DisplayScene);
 
-	// do≥πczenie funkcji wywo≥ywanej przy zmianie rozmiaru okna
+	// do≈ÇƒÖczenie funkcji wywo≈Çywanej przy zmianie rozmiaru okna
 	glutReshapeFunc(Reshape);
 
 	// utworzenie podmenu - Tekstura
 	int MenuTexture = glutCreateMenu(Menu);
-	glutAddMenuEntry("lena.tga (kompresja)", TEXTURE_LENA);
-	glutAddMenuEntry("lena.tga (bez kompresji)", TEXTURE_LENA_UNC);
+	glutAddMenuEntry("white_skin_man_face_2_20141210_1200773164.tga (kompresja)", TEXTURE_LENA);
+	glutAddMenuEntry("white_skin_man_face_2_20141210_1200773164.tga (bez kompresji)", TEXTURE_LENA_UNC);
 	glutAddMenuEntry("lena_gray.tga (kompresja)", TEXTURE_LENA_GRAY);
 	glutAddMenuEntry("lena_gray.tga (bez kompresji)", TEXTURE_LENA_GRAY_UNC);
 
@@ -577,7 +572,7 @@ int main(int argc, char *argv[])
 	int MenuAspect = glutCreateMenu(Menu);
 #ifdef WIN32
 
-	glutAddMenuEntry("Aspekt obrazu - ca≥e okno", FULL_WINDOW);
+	glutAddMenuEntry("Aspekt obrazu - ca≈Çe okno", FULL_WINDOW);
 #else
 
 	glutAddMenuEntry("Aspekt obrazu - cale okno", FULL_WINDOW);
@@ -585,7 +580,7 @@ int main(int argc, char *argv[])
 
 	glutAddMenuEntry("Aspekt obrazu 1:1", ASPECT_1_1);
 
-	// menu g≥Ûwne
+	// menu g≈Ç√≥wne
 	glutCreateMenu(Menu);
 	glutAddSubMenu("Tekstura", MenuTexture);
 	glutAddSubMenu("GL_TEXTURE_COMPRESSION_HINT", MenuTextureCompressionHint);
@@ -593,23 +588,22 @@ int main(int argc, char *argv[])
 
 #ifdef WIN32
 
-	glutAddMenuEntry("Wyjúcie", EXIT);
+	glutAddMenuEntry("Wyj≈õcie", EXIT);
 #else
 
 	glutAddMenuEntry("Wyjscie", EXIT);
 #endif
 
-	// okreúlenie przycisku myszki obs≥ugujπcego menu podrÍczne
+	// okre≈õlenie przycisku myszki obs≈ÇugujƒÖcego menu podrƒôczne
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	// utworzenie tekstur
 	GenerateTextures();
 
-	// sprawdzenie i przygotowanie obs≥ugi wybranych rozszerzeÒ
+	// sprawdzenie i przygotowanie obs≈Çugi wybranych rozszerze≈Ñ
 	ExtensionSetup();
 
-	// wprowadzenie programu do obs≥ugi pÍtli komunikatÛw
+	// wprowadzenie programu do obs≈Çugi pƒôtli komunikat√≥w
 	glutMainLoop();
 	return 0;
 }
-
